@@ -1,7 +1,14 @@
+using EForumKLTN.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<EForumContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("EForumDB"));
+});
 
 var app = builder.Build();
 
