@@ -10,6 +10,15 @@ builder.Services.AddDbContext<EForumContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("EForumDB"));
 });
 
+//Add session: Luu du lieu gio hang tam thoi tren server
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +31,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseSession(); 
 
 app.UseAuthorization();
 
