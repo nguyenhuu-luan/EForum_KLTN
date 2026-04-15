@@ -13,9 +13,17 @@ public partial class KhachHang
 
     public string Email { get; set; } = null!;
 
-    public string? DienThoai { get; set; }
+    public string? DienThoai { get; set; } 
 
-    public bool? HieuLuc { get; set; }
+    public bool HieuLuc { get; set; }
+
+    public string? Hinh { get; set; } 
+
+    public string? RandomKey { get; set; } = null!;
+    
+    public string? DiaChi { get; set; } 
+
+    public int VaiTro { get; set; }
 
     public virtual ICollection<BaiViet> BaiViets { get; set; } = new List<BaiViet>();
 

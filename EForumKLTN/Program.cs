@@ -1,3 +1,4 @@
+using EForumKLTN.Helpers;
 using EForumKLTN.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<EForumContext>(option =>
 
 //Add session: Luu du lieu gio hang tam thoi tren server
 builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(10);
@@ -19,7 +21,14 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+
+
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
