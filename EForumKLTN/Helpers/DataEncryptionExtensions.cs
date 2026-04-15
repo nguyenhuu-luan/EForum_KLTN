@@ -3,7 +3,7 @@ using System.Text;
 
 namespace EForumKLTN.Helpers
 {
-    public static class DataEncryptionExtensions                 
+    public static class DataEncryptionExtensions
     {
         #region [Hashing Extension]
         public static string ToSHA256Hash(this string password, string? saltKey)

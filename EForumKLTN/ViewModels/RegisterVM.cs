@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace EForumKLTN.ViewModels
 {
     public class RegisterVM
     {
-        [Key]
         [Display(Name = "Tên đăng nhập")]
         [Required(ErrorMessage = "*")]
         [MaxLength(20, ErrorMessage = "Tối đa 20 kí tự")]
@@ -26,7 +26,7 @@ namespace EForumKLTN.ViewModels
         [Display(Name = "Điện thoại")]
         [MaxLength(24, ErrorMessage = "Tối đa 24 kí tự")]
         [RegularExpression(@"0[9875]\d{8}", ErrorMessage = "Chưa đúng định dạng di động Việt Nam")]
-        public string DienThoai { get; set; }  
+        public string DienThoai { get; set; }
 
         public string? Hinh { get; set; } //cái "?" có nghĩa là cho phép null
 

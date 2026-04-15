@@ -3,22 +3,25 @@ namespace EForumKLTN.Helpers
 {
     public class MyUtil
     {
-        public static string UploadHinh(IFormFile Hinh, string folder)
-        {
-            try
-            {
-                var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Hinh", folder, Hinh.FileName);
-                using (var myfile = new FileStream(fullPath, FileMode.CreateNew))
+        public static string UploadHinh(IFormFile Hinh, string folder, IWebHostEnvironment env)
+        {            
+                var uploadPath = Path.Combine(env.WebRootPath, "Hinh", folder);
+
+                // tạo folder nếu chưa có
+                if (!Directory.Exists(uploadPath))
                 {
-                    Hinh.CopyTo(myfile);
+                    Directory.CreateDirectory(uploadPath);
                 }
+
+                var filePath = Path.Combine(uploadPath, Hinh.FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create)) // đổi ở đây
+                {
+                    Hinh.CopyTo(stream);
+                }
+
                 return Hinh.FileName;
-            }
-            catch (Exception ex)
-            {
-                return string.Empty;
-            }
-        }
+            }                   
 
         public static string GenerateRamdomKey(int length = 5)
         {

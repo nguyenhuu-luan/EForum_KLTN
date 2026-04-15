@@ -10,11 +10,14 @@ namespace EForumKLTN.Controllers
     {
         private readonly EForumContext db;
         private readonly IMapper _mapper;
+        private readonly IWebHostEnvironment _env;
 
-        public KhachHangController(EForumContext context, IMapper mapper)
+
+        public KhachHangController(EForumContext context, IMapper mapper, IWebHostEnvironment env)
         {
             db = context;
             _mapper = mapper;
+            _env = env;
         }
 
         [HttpGet]
@@ -24,47 +27,34 @@ namespace EForumKLTN.Controllers
         }
 
         [HttpPost]
-        public IActionResult DangKy(RegisterVM model, IFormFile? Hinh)
+        public IActionResult DangKy(RegisterVM model, IFormFile Hinh)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                foreach (var error in ModelState)
+                try
                 {
-                    foreach (var e in error.Value.Errors)
+                    var khachHang = _mapper.Map<KhachHang>(model);
+                    khachHang.RandomKey = MyUtil.GenerateRamdomKey();
+                    khachHang.MatKhau = model.MatKhau.ToMd5Hash(khachHang.RandomKey);
+                    khachHang.HieuLuc = true;//sẽ xử lý khi dùng Mail để active
+                    khachHang.VaiTro = 0;
+
+                    if (Hinh != null && Hinh.Length > 0)
                     {
-                        Console.WriteLine($"Lỗi: {e.ErrorMessage}");
+                       khachHang.Hinh = MyUtil.UploadHinh(Hinh, "KhachHang", _env);
                     }
+
+                    db.Add(khachHang);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "HangHoa");
                 }
-                return View(model);
-            }
-
-            try
-            {
-                var khachHang = _mapper.Map<KhachHang>(model);
-
-                khachHang.RandomKey = MyUtil.GenerateRamdomKey();
-                khachHang.MatKhau = model.MatKhau.ToMd5Hash(khachHang.RandomKey);
-                khachHang.HieuLuc = true;
-                khachHang.VaiTro = 0;
-
-                if (Hinh != null)
+                catch (Exception ex)
                 {
-                    khachHang.Hinh = MyUtil.UploadHinh(Hinh, "KhachHang");
+                    Console.WriteLine("ERROR: " + ex.ToString()); // 🔥 thêm ở đây
+                    return View(model); // 🔥 thêm luôn dòng này
                 }
-
-                db.KhachHangs.Add(khachHang);
-                db.SaveChanges();
-
-                Console.WriteLine("Đã lưu DB thành công!");
-
-                return RedirectToAction("Index", "HangHoa");
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("LỖI DB: " + ex.Message);
-            }
-
-            return View(model);
+            return View();
         }
     }
-}
+} 

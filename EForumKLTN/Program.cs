@@ -4,16 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<EForumContext>(option =>
+builder.Services.AddDbContext<EForumContext>(options =>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("EForumDB"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("EForumDB"));
 });
 
-//Add session: Luu du lieu gio hang tam thoi tren server
 builder.Services.AddDistributedMemoryCache();
-
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(10);
@@ -21,36 +18,47 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
+// logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
+// global exception
+AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+{
+    Console.WriteLine("UNHANDLED: " + e.ExceptionObject.ToString());
+};
 
+TaskScheduler.UnobservedTaskException += (sender, e) =>
+{
+    Console.WriteLine("TASK ERROR: " + e.Exception.ToString());
+};
 
 var app = builder.Build();
 
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// 🔥 THÊM CÁI NÀY
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
 
-app.UseSession(); 
+app.UseSession();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

@@ -29,9 +29,9 @@ public partial class EForumContext : DbContext
 
     public virtual DbSet<Loai> Loais { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-66DOCVE;Initial Catalog=EForumDB;Integrated Security=True;Encrypt=False;Trust Server Certificate=True");
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+   //      => optionsBuilder.UseSqlServer("Data Source=DESKTOP-66DOCVE;Initial Catalog=EForumDB;Integrated Security=True;Encrypt=False;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -131,11 +131,18 @@ public partial class EForumContext : DbContext
             entity.Property(e => e.MaKh)
                 .HasMaxLength(20)
                 .HasColumnName("MaKH");
+            entity.Property(e => e.DiaChi).HasMaxLength(60); //duma no thieu code deo chay dc :))
             entity.Property(e => e.DienThoai).HasMaxLength(24);
             entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Hinh)
+                .HasMaxLength(50)
+                .HasDefaultValue("Photo.gif"); //hoi AI cai nay` chua hieu lam 
             entity.Property(e => e.HieuLuc).HasDefaultValue(true);
             entity.Property(e => e.HoTen).HasMaxLength(50);
             entity.Property(e => e.MatKhau).HasMaxLength(50);
+            entity.Property(e => e.RandomKey)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<LichSuChatbot>(entity =>
