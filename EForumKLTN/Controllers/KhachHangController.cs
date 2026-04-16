@@ -92,8 +92,7 @@ namespace EForumKLTN.Controllers
                             new Claim(ClaimTypes.Email, khachHang.Email),
                             new Claim(ClaimTypes.Name, khachHang.HoTen),
                             new Claim("CustomerID", khachHang.MaKh),
-
-
+                            new Claim("Hinh", khachHang.Hinh ?? "default-user.png"),
                             new Claim(ClaimTypes.Role, khachHang.IsAdmin ? "Admin" : "Customer")
                         };
 
