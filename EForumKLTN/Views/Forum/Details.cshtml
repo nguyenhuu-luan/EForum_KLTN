@@ -1,0 +1,67 @@
+﻿@model EForumKLTN.Models.BaiViet
+
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-action="Index">Forum</a></li>
+                        <li class="breadcrumb-item">
+                            <a asp-action="Topics" asp-route-id="@Model.MaCd">@Model.MaCdNavigation?.TenChuDe</a>
+                        </li>
+                        <li class="breadcrumb-item active">@Model.TieuDe</li>
+                    </ol>
+                </nav>
+
+                <div class="bg-light p-5 rounded border border-primary shadow-sm mb-5">
+                    <h1 class="display-6 text-primary mb-3">@Model.TieuDe</h1>
+                    <div class="d-flex align-items-center mb-4 text-secondary">
+                        <small class="me-3"><i class="fas fa-user text-primary me-2"></i>@Model.MaKhNavigation?.HoTen</small>
+                        <small><i class="fas fa-calendar-alt text-primary me-2"></i>@Model.NgayDang?.ToString("dd/MM/yyyy")</small>
+                    </div>
+                    <hr />
+                    <div class="mt-4" style="line-height: 1.8; font-size: 1.1rem;">
+                        @Html.Raw(Model.NoiDung?.Replace("\n", "<br/>"))
+                    </div>
+                </div>
+
+                <h4 class="mb-4 text-primary">Bình luận (@Model.BinhLuans.Count)</h4>
+                @foreach (var bl in Model.BinhLuans.OrderBy(x => x.NgayBl))
+                {
+                    <div class="bg-white p-4 rounded border mb-3 shadow-sm">
+                        <div class="d-flex justify-content-between mb-2">
+                            <strong class="text-primary">@bl.MaKhNavigation?.HoTen</strong>
+                            <small class="text-muted">@bl.NgayBl.ToString("HH:mm dd/MM/yyyy")</small>
+                        </div>
+                        <p class="mb-0">@Html.Raw(bl.NoiDung?.Replace("\n", "<br/>"))</p>
+                    </div>
+                }
+
+                <div class="bg-light p-5 rounded border border-primary mt-5">
+                    <h4 class="mb-4">Để lại bình luận</h4>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form action="/Forum/PostComment" method="post">
+                            <input type="hidden" name="MaBv" value="@Model.MaBv" />
+                            <div class="form-group mb-4">
+                                <textarea name="NoiDung" class="form-control border-primary p-3" rows="4" placeholder="Nhập bình luận của bạn..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary border-2 border-primary rounded-pill py-3 px-5 text-white">
+                                <i class="fas fa-comment-dots me-2"></i>Gửi bình luận
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="text-center p-3">
+                            <p>
+                                Bạn cần <a asp-action="DangNhap" asp-controller="KhachHang" asp-route-ReturnUrl="@Context.Request.Path" class="text-primary fw-bold">đăng nhập</a> để bình luận.
+                            </p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,3 +15,18 @@
 body {
     padding-top: var(--nav-height);
 }
+.post-item {
+    transition: all 0.3s ease;
+}
+
+.post-item:hover {
+    background-color: #f8f9fa !important; /* Đổi màu nền nhẹ */
+    transform: translateY(-2px); /* Nhích nhẹ lên trên */
+    border-color: #81c408 !important; /* Đổi màu viền xanh Fruitables */
+}
+
+.hover-primary:hover {
+    color: #81c408 !important;
+    transition: 0.3s;
+}
+

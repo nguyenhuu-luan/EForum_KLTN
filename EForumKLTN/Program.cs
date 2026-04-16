@@ -69,6 +69,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=ShowIndex}/{id?}"); //này nha ví dụ để logic xử lý trong hàm index thì chuyển nó về action index cũng đc nha :)) mà lười quá nên để sau đi
 
 app.Run();

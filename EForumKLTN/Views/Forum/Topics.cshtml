@@ -29,7 +29,7 @@
                 @foreach (var bv in Model.BaiViets)
                 {
                     <div class="col-12">
-                        <div class="p-4 rounded bg-light border border-primary shadow-sm d-flex justify-content-between align-items-center">
+                        <div class="post-item p-4 rounded bg-light border border-primary shadow-sm d-flex justify-content-between align-items-center mb-3" data-url="@Url.Action("Details", "Forum", new { id = bv.MaBv })">
                             <div>
                                 <a href="#" class="h4 text-decoration-none text-dark hover-primary">@bv.TieuDe</a>
                                 <div class="d-flex mt-2">
@@ -38,7 +38,9 @@
                                 </div>
                             </div>
                             <div class="text-end">
-                                <a href="#" class="btn btn-outline-primary rounded-pill btn-sm px-4">Đọc tiếp</a>
+                                <a asp-action="Details" asp-controller="Forum" asp-route-id="@bv.MaBv" class="btn btn-outline-primary rounded-pill px-4">
+                                    Đọc tiếp
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -61,3 +63,13 @@
         transition: 0.3s;
     }
 </style>
+
+<script>
+    document.querySelectorAll('.post-item').forEach(item => {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', function() {
+            const url = this.getAttribute('data-url');
+            if (url) window.location.href = url;
+        });
+    });
+</script>

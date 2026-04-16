@@ -15,7 +15,7 @@
                 <div class="form-group mb-4">
                     <label class="form-label fw-bold">Chủ đề thảo luận</label>
                     <select asp-for="MaCd" class="form-select border-primary p-3"
-                            asp-items="@(new SelectList(ViewBag.ChuDes, "MaCd", "TenChuDe", ViewBag.MaCd))">
+                            asp-items="ViewBag.ChuDes">
                     </select>
                 </div>
 
