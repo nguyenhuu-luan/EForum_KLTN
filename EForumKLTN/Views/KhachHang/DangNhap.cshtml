@@ -1,33 +1,63 @@
 ﻿@model EForumKLTN.ViewModels.LoginVM
 @{
-    ViewData["Title"] = "DangNhap";
+    ViewData["Title"] = "Đăng nhập - E-Forum";
 }
 
-<div class="container-fluid py-5">
-	<div class="container py-5">
-		<h1 class="mb-4">Đăng nhập</h1>
-		<form asp-action="DangNhap" method="post" asp-route-returnurl="@ViewBag.ReturnUrl">
-			<div class="text-danger" asp-validation-summary="All"></div>
-			<div class="row">
-				<div class="row">
-					<div class="col-md-12 col-lg-6">
-						<div class="form-item w-100">
-							<label asp-for="UserName" class="form-label my-3"></label><sup>*</sup>
-							<input asp-for="UserName" class="form-control">
-							<span asp-validation-for="UserName" class="text-danger"></span>
-						</div>
-					</div>
-					<div class="col-md-12 col-lg-6">
-						<label asp-for="Password" class="form-label my-3"></label><sup>*</sup>
-						<input asp-for="Password" class="form-control">
-						<span asp-validation-for="Password" class="text-danger"></span>
-					</div>				
-				</div>
-				<div class="row g-4 text-center align-items-center justify-content-center pt-4">
-					<button type="submit" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Đăng nhập</button>
-					<a asp-controller="KhachHang" asp-action="QuenMatKhau" class="btn border-danger">Quên mật khẩu</a>
-				</div>
-			</div>
-		</form>
-	</div>
+<div class="container-fluid py-5 bg-light" style="min-height: 80vh;">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4 p-sm-5">
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold text-primary">Đăng Nhập</h2>
+                            <p class="text-muted">Chào mừng bạn quay lại với E-Forum</p>
+                        </div>
+
+                        <form asp-action="DangNhap" method="post" asp-route-returnurl="@ViewBag.ReturnUrl">
+                            <div class="text-danger mb-3" asp-validation-summary="All"></div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="UserName" class="form-control" placeholder="Tên đăng nhập" style="border-radius: 10px;">
+                                <label asp-for="UserName">Tên đăng nhập</label>
+                                <span asp-validation-for="UserName" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Password" type="password" class="form-control" placeholder="Mật khẩu" style="border-radius: 10px;">
+                                <label asp-for="Password">Mật khẩu</label>
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+
+                            <div class="text-end mb-4">
+                                <a asp-controller="KhachHang" asp-for="QuenMatKhau" class="text-decoration-none small text-muted">Quên mật khẩu?</a>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-3 mb-3 fw-bold text-uppercase" style="border-radius: 10px; letter-spacing: 1px;">
+                                Đăng nhập
+                            </button>
+
+                            <div class="position-relative my-4">
+                                <hr class="text-muted">
+                                <span class="position-absolute top-50 start-50 translate-middle bg-white px-2 text-muted small">hoặc</span>
+                            </div>
+
+                            <div class="text-center">
+                                <p class="mb-0">Chưa có tài khoản?</p>
+                                <a asp-controller="KhachHang" asp-action="DangKy" class="btn btn-outline-secondary w-100 mt-2 py-2" style="border-radius: 10px;">
+                                    Tạo tài khoản mới
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="/" class="text-muted text-decoration-none small">
+                        <i class="bi bi-arrow-left"></i> Quay lại trang chủ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

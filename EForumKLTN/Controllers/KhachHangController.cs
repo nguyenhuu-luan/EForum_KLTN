@@ -122,7 +122,7 @@ namespace EForumKLTN.Controllers
         {
             var customerId = User.FindFirst("CustomerID")?.Value;
             var user = db.KhachHangs.SingleOrDefault(kh => kh.MaKh == customerId);
-            return View();
+            return View(user);
         }
 
         [Authorize]

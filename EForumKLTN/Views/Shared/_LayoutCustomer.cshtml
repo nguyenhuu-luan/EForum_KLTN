@@ -39,9 +39,8 @@
             <div class="spinner-grow text-primary" role="status"></div>
         </div>
         <!-- Spinner End -->
-
         <!-- Navbar start -->
-        <div class="container-fluid fixed-top"> 
+        <div class="container-fluid fixed-top">
             <div class="container topbar bg-primary d-none d-lg-block">
                 <div class="d-flex justify-content-between">
                     <div class="top-info ps-2">
@@ -57,16 +56,14 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+                    <a asp-controller="Home" asp-action="ShowIndex" class="navbar-brand"><h1 class="text-primary display-6">STHUB</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.html" class="nav-item nav-link active">Home</a>
+                            <a asp-controller="Forum" asp-action="Index" class="nav-item nav-link active">Forum</a>
                             <a asp-controller="HangHoa" asp-action="Index" class="nav-item nav-link">Shop</a>
-                            <a asp-controller="Forum" asp-action="Index" class="nav-item nav-link">Forum</a>
-                            <a asp-controller="KhachHang" asp-action="DangKy" class="nav-item nav-link">Sign Up</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
@@ -123,7 +120,6 @@
             </div>
         </div>
         <!-- Navbar End -->
-
         <!-- Modal Search Start -->
         <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
@@ -144,7 +140,8 @@
         <!-- Modal Search End -->
 
 
-        <div class="page-header" style="min-height: 400px; background: none;"> <!--thêm 2 cái này để cho body k bị navbar chèn, xóa cái bg mặc định của nó nữa amazing:))-->
+        <div class="page-header" style="min-height: 400px; background: none;">
+            <!--thêm 2 cái này để cho body k bị navbar chèn, xóa cái bg mặc định của nó nữa amazing:))-->
             @RenderBody()
         </div>
 
@@ -174,10 +171,10 @@
 
     <script>
         $(document).ready(function() {
-            $("#searchButton").click(function () {
-                let url = `/HangHoa/Search?query=` + $("#searchText").val();
-                window.location.href = url;
-            });
+        $("#searchButton").click(function () {
+        let url = `/HangHoa/Search?query=` + $("#searchText").val();
+        window.location.href = url;
+        });
         });
     </script>
 

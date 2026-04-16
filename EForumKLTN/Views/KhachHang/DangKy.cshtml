@@ -1,60 +1,102 @@
 ﻿@model EForumKLTN.ViewModels.RegisterVM
-
 @{
-    ViewData["Title"] = "DangKy";
+    ViewData["Title"] = "Đăng ký Thành viên - E-Forum";
 }
 
-<div class="container-fluid py-5">
-	<div class="container py-5">
-		<h1 class="mb-4">Đăng ký Thành viên</h1>
-		<form asp-action="DangKy" method="post" enctype="multipart/form-data">
-			<div class="row">
-				<div class="row">
-					<div class="col-md-12 col-lg-6">
-						<div class="form-item w-100">
-							<label asp-for="MaKh" class="form-label my-3"></label><sup>*</sup>
-							<input asp-for="MaKh" class="form-control">
-							<span asp-validation-for="MaKh" class="text-danger"></span>
-						</div>
-					</div>
-					<div class="col-md-12 col-lg-6">
-						<label asp-for="MatKhau" class="form-label my-3"></label><sup>*</sup>
-						<input asp-for="MatKhau" class="form-control">
-						<span asp-validation-for="MatKhau" class="text-danger"></span>
-					</div>
-					<div class="form-item">
-						<label class="form-label my-3" asp-for="HoTen"></label><sup>*</sup>
-						<input asp-for="HoTen" class="form-control" />
-						<span asp-validation-for="HoTen" class="text-danger"></span>
-					</div>				
+<div class="container-fluid py-5 bg-light" style="min-height: 100vh;">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-8">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4 p-sm-5">
+                        <div class="text-center mb-5">
+                            <h2 class="fw-bold text-primary">Đăng Ký Thành Viên</h2>
+                            <p class="text-muted">Gia nhập cộng đồng E-Forum để trải nghiệm nhiều tiện ích hơn</p>
+                        </div>
 
-					<div class="form-item">
-						<label class="form-label my-3" asp-for="DiaChi"></label><sup>*</sup>
-						<input asp-for="DiaChi" class="form-control" />
-						<span asp-validation-for="DiaChi" class="text-danger"></span>
-					</div>
+                        <form asp-action="DangKy" method="post" enctype="multipart/form-data">
+                            <div class="text-danger mb-3" asp-validation-summary="All"></div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="MaKh" class="form-control" placeholder="Tên đăng nhập" style="border-radius: 10px;">
+                                        <label asp-for="MaKh">Tên đăng nhập *</label>
+                                        <span asp-validation-for="MaKh" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="MatKhau" type="password" class="form-control" placeholder="Mật khẩu" style="border-radius: 10px;">
+                                        <label asp-for="MatKhau">Mật khẩu *</label>
+                                        <span asp-validation-for="MatKhau" class="text-danger small"></span>
+                                    </div>
+                                </div>
 
-					<div class="form-item">
-						<label class="form-label my-3" asp-for="DienThoai"></label><sup>*</sup>
-						<input asp-for="DienThoai" class="form-control" />
-						<span asp-validation-for="DienThoai" class="text-danger"></span>
-					</div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="HoTen" class="form-control" placeholder="Họ và tên" style="border-radius: 10px;">
+                                        <label asp-for="HoTen">Họ và tên *</label>
+                                        <span asp-validation-for="HoTen" class="text-danger small"></span>
+                                    </div>
+                                </div>
 
-					<div class="form-item">
-						<label class="form-label my-3" asp-for="Email"></label><sup>*</sup>
-						<input asp-for="Email" class="form-control" />
-						<span asp-validation-for="Email" class="text-danger"></span>
-					</div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Email" type="email" class="form-control" placeholder="Email" style="border-radius: 10px;">
+                                        <label asp-for="Email">Email *</label>
+                                        <span asp-validation-for="Email" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="DienThoai" class="form-control" placeholder="Điện thoại" style="border-radius: 10px;">
+                                        <label asp-for="DienThoai">Điện thoại *</label>
+                                        <span asp-validation-for="DienThoai" class="text-danger small"></span>
+                                    </div>
+                                </div>
 
-					<div class="form-item">
-						<label class="form-label my-3" for="Hinh">Hình<sup>*</sup></label>
-						<input type="file" name="Hinh" class="form-control" />
-					</div>
-				</div>
-				<div class="row g-4 text-center align-items-center justify-content-center pt-4">
-					<button type="submit" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Đăng ký</button>
-				</div>
-			</div>
-		</form>
-	</div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="DiaChi" class="form-control" placeholder="Địa chỉ" style="border-radius: 10px;">
+                                        <label asp-for="DiaChi">Địa chỉ *</label>
+                                        <span asp-validation-for="DiaChi" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-4">
+                                    <label class="form-label text-muted small ps-2">Ảnh đại diện *</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white" style="border-radius: 10px 0 0 10px;"><i class="bi bi-image"></i></span>
+                                        <input type="file" name="Hinh" class="form-control" style="border-radius: 0 10px 10px 0;">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold text-uppercase shadow-sm" style="border-radius: 10px; letter-spacing: 1px;">
+                                        Đăng ký ngay
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <p class="mb-0 text-muted small">
+                                    Đã có tài khoản?
+                                    <a asp-controller="KhachHang" asp-action="DangNhap" class="text-primary fw-bold text-decoration-none">Đăng nhập tại đây</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4 pb-5">
+                    <a href="/" class="text-muted text-decoration-none small">
+                        <i class="bi bi-house"></i> Quay lại trang chủ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
