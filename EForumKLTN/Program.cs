@@ -1,5 +1,6 @@
 using EForumKLTN.Helpers;
 using EForumKLTN.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +35,15 @@ TaskScheduler.UnobservedTaskException += (sender, e) =>
 {
     Console.WriteLine("TASK ERROR: " + e.Exception.ToString());
 };
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.LoginPath = "/KhachHang/DangNhap";
+    options.AccessDeniedPath = "/AccessDenied";
+});
+
+
 
 var app = builder.Build();
 

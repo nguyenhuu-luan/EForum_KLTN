@@ -12,3 +12,6 @@
     overflow: hidden;
     min-height: 30px; 
 }
+body {
+    padding-top: var(--nav-height);
+}

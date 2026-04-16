@@ -41,7 +41,7 @@
         <!-- Spinner End -->
 
         <!-- Navbar start -->
-        <div class="container-fluid fixed-top">
+        <div class="container-fluid fixed-top"> 
             <div class="container topbar bg-primary d-none d-lg-block">
                 <div class="d-flex justify-content-between">
                     <div class="top-info ps-2">
@@ -80,7 +80,8 @@
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
                             @await Component.InvokeAsync("Cart")
-                            <a href="#" class="my-auto">
+
+                            <a asp-action="DangNhap" asp-controller="KhachHang" title="Đăng nhập" class="my-auto">
                                 <i class="fas fa-user fa-2x"></i>
                             </a>
                         </div>
@@ -110,7 +111,7 @@
         <!-- Modal Search End -->
 
 
-        <div style="min-height: 400px;">  
+        <div class="page-header" style="min-height: 400px; background: none;"> <!--thêm 2 cái này để cho body k bị navbar chèn, xóa cái bg mặc định của nó nữa amazing:))-->
             @RenderBody()
         </div>
 
@@ -146,6 +147,16 @@
             });
         });
     </script>
+
+    <!--lấy chiều cao navbar để chỉnh body thụt xuống -->
+    <!--<script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const nav = document.querySelector(".navbar");
+        if (nav) {
+        document.body.style.paddingTop = nav.offsetHeight + "px";
+        }
+        });
+    </script>-->
 
 </body>
 </html>

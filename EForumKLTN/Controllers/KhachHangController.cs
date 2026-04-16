@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
-using EForumKLTN.Models;
 using EForumKLTN.Helpers;
+using EForumKLTN.Models;
 using EForumKLTN.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EForumKLTN.Controllers
 {
@@ -19,7 +23,7 @@ namespace EForumKLTN.Controllers
             _mapper = mapper;
             _env = env;
         }
-
+        #region Register
         [HttpGet]
         public IActionResult DangKy()
         {
@@ -55,6 +59,74 @@ namespace EForumKLTN.Controllers
                 }
             }
             return View();
+        }
+        #endregion
+
+        #region Login
+        [HttpGet]
+        public IActionResult DangNhap(string? ReturnUrl)
+        {
+            ViewBag.ReturnUrl = ReturnUrl;
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> DangNhap(LoginVM model, string? ReturnUrl)
+        {
+            ViewBag.returnu = ReturnUrl;
+            if(ModelState.IsValid)
+            {
+                var khachHang = db.KhachHangs.SingleOrDefault(kh => kh.MaKh == model.UserName);
+                if(khachHang == null)
+                {
+                    ModelState.AddModelError("Lỗi", "Tài khoản không tồn tại!");
+                } 
+                else
+                {
+                    if(khachHang.MatKhau != model.Password.ToMd5Hash(khachHang.RandomKey))
+                    {
+                        ModelState.AddModelError("Lỗi", "Sai thông tin đăng nhập!");
+                    } else
+                    {
+                        var claims = new List<Claim> {
+                            new Claim(ClaimTypes.Email, khachHang.Email),
+                            new Claim(ClaimTypes.Name, khachHang.HoTen),
+                            new Claim("CustomerID", khachHang.MaKh),
+
+
+                            new Claim(ClaimTypes.Role, "Customer")
+                        };
+
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                        await HttpContext.SignInAsync(claimsPrincipal);
+
+                        if (Url.IsLocalUrl(ReturnUrl))
+                        {
+                            return Redirect(ReturnUrl);
+                        }
+                        else
+                        {
+                            return Redirect("/");
+                        }
+                    }
+                }
+            }
+            return View();
+        }
+        #endregion
+
+        [Authorize]
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> DangXuat()
+        {
+            await HttpContext.SignOutAsync();
+            return Redirect("/");
         }
     }
 } 
