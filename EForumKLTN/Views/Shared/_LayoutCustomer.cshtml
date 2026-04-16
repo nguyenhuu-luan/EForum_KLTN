@@ -77,6 +77,38 @@
                                 </div>
                             </div>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="KhachHang" asp-action="Profile">
+                                        <i class="fas fa-user-circle me-1"></i> Hồ sơ cá nhân
+                                    </a>
+                                </li>
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-danger fw-bold" asp-controller="Admin" asp-action="Index">
+                                            <i class="fas fa-user-shield me-1"></i> DASHBOARD ADMIN
+                                        </a>
+                                    </li>
+                                }
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="KhachHang" asp-action="DangXuat">
+                                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="KhachHang" asp-action="DangNhap">Đăng nhập</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="KhachHang" asp-action="DangKy">Đăng ký</a>
+                                </li>
+                            }
                         </div>
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>

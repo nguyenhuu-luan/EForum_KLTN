@@ -1,11 +1,35 @@
-﻿
+﻿@model EForumKLTN.Models.KhachHang
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Hồ sơ cá nhân";
 }
-<div class="container" style="margin-top:80px;">
-<h1>Profile</h1>
-<div class="container">
-	<h2>Welcome @Context.User.Identity.Name</h2>
-	<a asp-action="DangXuat">Đăng xuất</a>
-</div>
+<div class="container py-3 py-lg-5" style="margin-top:100px; margin-bottom: 50px;"> <!--py-3 cho điện thoại và py-5 cho màn lớn->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center p-4">
+                <img src="~/Hinh/KhachHang/@(Model.Hinh ?? "default-avatar.png")" 
+                     class="rounded-circle img-thumbnail mx-auto" style="width: 150px; height: 150px; object-fit: cover;">
+                <h4 class="mt-3">@Model.HoTen</h4>
+                <p class="text-muted">@(User.IsInRole("Admin") ? "Quản trị viên" : "Thành viên")</p>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card shadow-sm p-4">
+                <h3>Thông tin chi tiết</h3>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-4 fw-bold">Mã khách hàng:</div>
+                    <div class="col-sm-8">@Model.MaKh</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-4 fw-bold">Email:</div>
+                    <div class="col-sm-8">@Model.Email</div>
+                </div>
+                <div class="mt-4">
+                    <a href="/" class="btn btn-secondary">Quay lại</a>
+                    <a asp-action="EditProfile" class="btn btn-primary">Chỉnh sửa hồ sơ</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

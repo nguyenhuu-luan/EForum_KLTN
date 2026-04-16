@@ -42,6 +42,7 @@ namespace EForumKLTN.Controllers
                     khachHang.MatKhau = model.MatKhau.ToMd5Hash(khachHang.RandomKey);
                     khachHang.HieuLuc = true;//sẽ xử lý khi dùng Mail để active
                     khachHang.VaiTro = 0;
+                    khachHang.IsAdmin = false;
 
                     if (Hinh != null && Hinh.Length > 0)
                     {
@@ -72,7 +73,7 @@ namespace EForumKLTN.Controllers
         [HttpPost]
         public async Task<IActionResult> DangNhap(LoginVM model, string? ReturnUrl)
         {
-            ViewBag.returnu = ReturnUrl;
+            ViewBag.ReturnUrl = ReturnUrl;
             if(ModelState.IsValid)
             {
                 var khachHang = db.KhachHangs.SingleOrDefault(kh => kh.MaKh == model.UserName);
@@ -93,7 +94,7 @@ namespace EForumKLTN.Controllers
                             new Claim("CustomerID", khachHang.MaKh),
 
 
-                            new Claim(ClaimTypes.Role, "Customer")
+                            new Claim(ClaimTypes.Role, khachHang.IsAdmin ? "Admin" : "Customer")
                         };
 
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -119,6 +120,8 @@ namespace EForumKLTN.Controllers
         [Authorize]
         public IActionResult Profile()
         {
+            var customerId = User.FindFirst("CustomerID")?.Value;
+            var user = db.KhachHangs.SingleOrDefault(kh => kh.MaKh == customerId);
             return View();
         }
 

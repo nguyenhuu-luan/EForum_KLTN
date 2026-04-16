@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container-fluid pt-4 px-4">
+    <h2 class="mb-4">Hệ Thống Quản Trị E-Forum</h2>
+    <div class="row g-4">
+        <div class="col-sm-6 col-xl-4">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 shadow-sm">
+                <i class="fa fa-users fa-3x text-primary"></i>
+                <div class="ms-3 text-end">
+                    <p class="mb-2">Người dùng</p>
+                    <h6 class="mb-0">@ViewBag.TotalUsers</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-4">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 shadow-sm">
+                <i class="fa fa-newspaper fa-3x text-success"></i>
+                <div class="ms-3 text-end">
+                    <p class="mb-2">Bài viết Forum</p>
+                    <h6 class="mb-0">@ViewBag.TotalPosts</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-4">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 shadow-sm">
+                <i class="fa fa-book fa-3x text-warning"></i>
+                <div class="ms-3 text-end">
+                    <p class="mb-2">Sách/Ebook</p>
+                    <h6 class="mb-0">@ViewBag.TotalEbooks</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-5">
+        <h4>Chức năng quản trị</h4>
+        <div class="list-group">
+            <a href="/Admin/ManagePosts" class="list-group-item list-group-item-action">Duyệt bài viết vi phạm</a>
+            <a href="/Admin/ManageProducts" class="list-group-item list-group-item-action">Quản lý kho sách</a>
+        </div>
+    </div>
+</div>
