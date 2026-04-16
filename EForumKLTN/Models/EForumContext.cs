@@ -29,9 +29,13 @@ public partial class EForumContext : DbContext
 
     public virtual DbSet<Loai> Loais { get; set; }
 
+    public virtual DbSet<ChuDe> ChuDes { get; set; }
+
+    public virtual DbSet<BinhLuan> BinhLuans { get; set; }
+
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-   //      => optionsBuilder.UseSqlServer("Data Source=DESKTOP-66DOCVE;Initial Catalog=EForumDB;Integrated Security=True;Encrypt=False;Trust Server Certificate=True");
+    //      => optionsBuilder.UseSqlServer("Data Source=DESKTOP-66DOCVE;Initial Catalog=EForumDB;Integrated Security=True;Encrypt=False;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -54,9 +58,9 @@ public partial class EForumContext : DbContext
                 .HasForeignKey(d => d.MaKh)
                 .HasConstraintName("FK__BaiViet__MaKH__5CD6CB2B");
 
-            entity.HasOne(d => d.MaLoaiNavigation).WithMany(p => p.BaiViets)
-                .HasForeignKey(d => d.MaLoai)
-                .HasConstraintName("FK__BaiViet__MaLoai__5DCAEF64");
+            entity.HasOne(d => d.MaCdNavigation).WithMany(p => p.BaiViets)
+                .HasForeignKey(d => d.MaCd)
+                .HasConstraintName("FK_BaiViet_ChuDe");
         });
 
         modelBuilder.Entity<ChiTietHd>(entity =>
@@ -171,6 +175,36 @@ public partial class EForumContext : DbContext
             entity.ToTable("Loai");
 
             entity.Property(e => e.TenLoai).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<ChuDe>(entity =>
+        {
+            entity.HasKey(e => e.MaCd).HasName("PK_ChuDe"); 
+
+            entity.ToTable("ChuDe");
+
+            entity.Property(e => e.MaCd).HasColumnName("MaCD");
+            entity.Property(e => e.TenChuDe).HasMaxLength(100);
+            entity.Property(e => e.MoTa).HasMaxLength(500);
+        });
+
+        modelBuilder.Entity<BinhLuan>(entity =>
+        {
+            entity.HasKey(e => e.MaBl).HasName("PK_BinhLuan"); 
+
+            entity.ToTable("BinhLuan");
+
+            entity.Property(e => e.MaBl).HasColumnName("MaBL");
+            entity.Property(e => e.MaBv).HasColumnName("MaBV");
+            entity.Property(e => e.MaKh).HasMaxLength(20).HasColumnName("MaKH");
+            entity.Property(e => e.NoiDung).HasColumnType("nvarchar(max)");
+
+            entity.HasOne(d => d.MaBvNavigation).WithMany(p => p.BinhLuans)
+                .HasForeignKey(d => d.MaBv)
+                .HasConstraintName("FK_BinhLuan_BaiViet");
+            entity.HasOne(d => d.MaKhNavigation).WithMany(p => p.BinhLuans)
+                .HasForeignKey(d => d.MaKh)
+                .HasConstraintName("FK_BinhLuan_KhachHang");
         });
 
         OnModelCreatingPartial(modelBuilder);

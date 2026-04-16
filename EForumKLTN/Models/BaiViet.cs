@@ -15,9 +15,12 @@ public partial class BaiViet
 
     public string? MaKh { get; set; }
 
-    public int? MaLoai { get; set; }
+    public int? MaCd { get; set; }
 
     public virtual KhachHang? MaKhNavigation { get; set; }
 
-    public virtual Loai? MaLoaiNavigation { get; set; }
+    public virtual ChuDe? MaCdNavigation { get; set; }
+
+    public virtual ICollection<BinhLuan> BinhLuans { get; set; } = new List<BinhLuan>();
 }
+

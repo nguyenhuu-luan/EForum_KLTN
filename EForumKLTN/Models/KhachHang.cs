@@ -25,9 +25,13 @@ public partial class KhachHang
 
     public int VaiTro { get; set; }
 
+    public bool IsAdmin { get; set; }
+
     public virtual ICollection<BaiViet> BaiViets { get; set; } = new List<BaiViet>();
 
     public virtual ICollection<HoaDon> HoaDons { get; set; } = new List<HoaDon>();
 
     public virtual ICollection<LichSuChatbot> LichSuChatbots { get; set; } = new List<LichSuChatbot>();
+
+    public virtual ICollection<BinhLuan> BinhLuans { get; set; } = new List<BinhLuan>();
 }
