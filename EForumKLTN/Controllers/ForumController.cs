@@ -30,4 +30,39 @@ public class ForumController : Controller
 
         return View(chuDe);
     }
+
+    // 1. Trang hiển thị Form đăng bài
+    [HttpGet]
+    public IActionResult Create(int? maCd)
+    {
+        // Kiểm tra đăng nhập (Giả sử ông lưu MaKh vào Session khi Login)
+        if (HttpContext.Session.GetString("MaKh") == null)
+        {
+            return RedirectToAction("DangNhap", "KhachHang");
+        }
+
+        ViewBag.MaCd = maCd; // Để mặc định chọn đúng chủ đề đang đứng
+        return View();
+    }
+
+    // 2. Xử lý lưu bài viết
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(BaiViet model)
+    {
+        var maKh = HttpContext.Session.GetString("MaKh");
+        if (maKh == null) return RedirectToAction("DangNhap", "KhachHang");
+
+        if (ModelState.IsValid)
+        {
+            model.MaKh = maKh;
+            model.NgayDang = DateTime.Now;
+
+            _db.Add(model);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Topics", new { id = model.MaCd });
+        }
+        return View(model);
+    }
 }
