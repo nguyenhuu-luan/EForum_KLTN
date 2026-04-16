@@ -1,0 +1,40 @@
+﻿@model IEnumerable<EForumKLTN.Models.ChuDe>
+
+@{
+    ViewData["Title"] = "Diễn đàn học tập";
+}
+
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Forum</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active text-white">Forum</li>
+    </ol>
+</div>
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="text-center mx-auto mb-5" style="max-width: 700px;">
+            <h1 class="display-4">Chủ Đề Thảo Luận</h1>
+            <p>Chọn một chủ đề bên dưới để bắt đầu trao đổi kiến thức cùng cộng đồng E-Forum.</p>
+        </div>
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <a asp-action="Topics" asp-route-id="@item.MaCd" class="text-decoration-none">
+                        <div class="service-item bg-light rounded border border-primary p-4 h-100 shadow-sm">
+                            <div class="service-content text-center">
+                                <div class="mb-3">
+                                    <i class="fas fa-comments fa-3x text-primary"></i>
+                                </div>
+                                <h5 class="mb-3">@item.TenChuDe</h5>
+                                <p class="mb-4 text-dark">@item.MoTa</p>
+                                <div class="btn btn-primary border-2 border-primary rounded-pill py-2 px-4">Xem bài viết</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

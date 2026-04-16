@@ -11,7 +11,5 @@ public partial class Loai
 
     public string? MoTa { get; set; }
 
-    public virtual ICollection<BaiViet> BaiViets { get; set; } = new List<BaiViet>();
-
     public virtual ICollection<HangHoa> HangHoas { get; set; } = new List<HangHoa>();
 }

@@ -1,0 +1,63 @@
+﻿@model EForumKLTN.Models.ChuDe
+
+@{
+    ViewData["Title"] = Model.TenChuDe;
+}
+
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">@Model.TenChuDe</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a asp-action="Index">Forum</a></li>
+        <li class="breadcrumb-item active text-white">@Model.TenChuDe</li>
+    </ol>
+</div>
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="display-6 text-primary">Danh sách bài viết</h2>
+                <p class="text-muted">Tổng cộng có @Model.BaiViets.Count bài thảo luận</p>
+            </div>
+            <a href="#" class="btn btn-primary border-2 border-primary rounded-pill py-2 px-4 text-white">
+                <i class="fas fa-edit me-2"></i>Đăng bài mới
+            </a>
+        </div>
+
+        <div class="row g-4">
+            @if (Model.BaiViets.Any())
+            {
+                @foreach (var bv in Model.BaiViets)
+                {
+                    <div class="col-12">
+                        <div class="p-4 rounded bg-light border border-primary shadow-sm d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="#" class="h4 text-decoration-none text-dark hover-primary">@bv.TieuDe</a>
+                                <div class="d-flex mt-2">
+                                    <small class="me-3"><i class="fas fa-user text-primary me-2"></i>@(bv.MaKhNavigation?.HoTen ?? "Ẩn danh")</small>
+                                    <small><i class="fas fa-calendar-alt text-primary me-2"></i>@bv.NgayDang?.ToString("dd/MM/yyyy")</small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <a href="#" class="btn btn-outline-primary rounded-pill btn-sm px-4">Đọc tiếp</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-5">
+                    <p class="h5 text-muted">Chưa có bài viết nào trong chủ đề này.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Hiệu ứng rê chuột nhẹ cho tiêu đề bài viết */
+    .hover-primary:hover {
+        color: #81c408 !important; /* Màu xanh của Fruitables */
+        transition: 0.3s;
+    }
+</style>

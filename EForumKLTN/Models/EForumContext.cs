@@ -186,6 +186,10 @@ public partial class EForumContext : DbContext
             entity.Property(e => e.MaCd).HasColumnName("MaCD");
             entity.Property(e => e.TenChuDe).HasMaxLength(100);
             entity.Property(e => e.MoTa).HasMaxLength(500);
+            entity.HasMany(d => d.BaiViets)
+            .WithOne(p => p.MaCdNavigation)
+            .HasForeignKey(p => p.MaCd)
+            .HasConstraintName("FK_BaiViet_ChuDe");
         });
 
         modelBuilder.Entity<BinhLuan>(entity =>
