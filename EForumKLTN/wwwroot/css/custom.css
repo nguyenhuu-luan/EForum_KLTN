@@ -45,3 +45,36 @@ body {
     border-color: #1877F2 !important;
     color: #fff !important;
 }
+
+
+/*Sửa chiều cao ảnh, ép ảnh về chugn kích thước tránh lỗi layout*/
+.fruite-img {
+    height: 200px; !important   
+    overflow: hidden; !important
+}
+
+.fruite-img img {
+    width: 100%; !important
+    height: 100%; !important
+    object-fit: cover; !important
+}
+
+/* riêng cho trang Home (carousel) */
+.fruite-img-homeindex {
+    height: 200px;        
+    overflow: hidden;
+    border-radius: 10px 10px 0 0; 
+}
+
+.fruite-img-homeindex img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;    
+    display: block;
+    border-radius: inherit; 
+}
+.fruite-img-homeindex img:hover {
+    transform: scale(1.3);
+    transition: 0.5s;
+
+}

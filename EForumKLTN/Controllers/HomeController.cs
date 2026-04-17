@@ -49,11 +49,22 @@ namespace EForumKLTN.Controllers
 
                 // Lấy 10 sản phẩm bất kỳ hoặc mới nhất
                 FeaturedProducts = await _db.HangHoas
+                    .Include(s => s.MaLoaiNavigation) // nếu cần TenLoai
                     .OrderByDescending(s => s.MaHh)
                     .Take(10)
-                    .ToListAsync()
+                    .Select(s => new HangHoaVM
+                    {
+                        MaHH = s.MaHh,
+                        TenHH = s.TenHh,
+                        DonGia = s.DonGia ?? 0,
+                        Hinh = s.Hinh ?? "",
+                        MoTaNgan = s.MoTa ?? "",
+                        TenLoai = s.MaLoaiNavigation.TenLoai,
+                    })
+                    .ToListAsync(),
             };
             return View(model);
+            
         }
     }
 }
