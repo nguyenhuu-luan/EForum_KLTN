@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies; 
 using EForumKLTN.Models;
 using System.Linq;
 
-[Authorize(Roles = "Admin")] // Khóa cửa: Chỉ Admin mới vào được
+[Authorize(Roles = "Admin")] 
 public class AdminController : Controller
 {
     private readonly EForumContext _db;
@@ -15,11 +16,11 @@ public class AdminController : Controller
 
     public IActionResult Index()
     {
-        // Lấy vài con số thống kê cho chuyên nghiệp
         ViewBag.TotalUsers = _db.KhachHangs.Count();
         ViewBag.TotalPosts = _db.BaiViets.Count();
         ViewBag.TotalEbooks = _db.HangHoas.Count();
 
         return View();
     }
+
 }

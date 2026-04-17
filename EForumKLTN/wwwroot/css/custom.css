@@ -30,3 +30,18 @@ body {
     transition: 0.3s;
 }
 
+.ph-button:hover {
+    background-color: #222 !important; /* Đen đậm hơn */
+    border-color: #f90 !important; /* Border cam hiện lên rực rỡ */
+}
+
+.btn-outline-primary {
+    color: #1877F2;
+    border-color: #1877F2;
+}
+
+.btn-outline-primary:hover {
+    background-color: #1877F2 !important;
+    border-color: #1877F2 !important;
+    color: #fff !important;
+}

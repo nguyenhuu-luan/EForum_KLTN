@@ -33,7 +33,7 @@
                                 <a asp-controller="KhachHang" asp-for="QuenMatKhau" class="text-decoration-none small text-muted">Quên mật khẩu?</a>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100 py-3 mb-3 fw-bold text-uppercase" style="border-radius: 10px; letter-spacing: 1px;">
+                            <button type="submit" class="btn btn-primary w-100 py-3 mb-4 fw-bold text-uppercase" style="border-radius: 10px; letter-spacing: 1px;">
                                 Đăng nhập
                             </button>
 
@@ -42,11 +42,29 @@
                                 <span class="position-absolute top-50 start-50 translate-middle bg-white px-2 text-muted small">hoặc</span>
                             </div>
 
-                            <div class="text-center">
-                                <p class="mb-0">Chưa có tài khoản?</p>
-                                <a asp-controller="KhachHang" asp-action="DangKy" class="btn btn-outline-secondary w-100 mt-2 py-2" style="border-radius: 10px;">
-                                    Tạo tài khoản mới
-                                </a>
+                            <div class="row g-2 mb-4">
+                                <div class="col-6">
+                                    <a href="/KhachHang/ExternalLogin?provider=Google" class="btn btn-outline-danger w-100 py-2 d-flex align-items-center justify-content-center" style="border-radius: 10px; font-size: 0.9rem;">
+                                        <i class="fab fa-google me-2"></i> Google
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="/KhachHang/ExternalLogin?provider=Facebook"
+                                           class="btn btn-outline-primary w-100 py-2 d-flex align-items-center justify-content-center"
+                                           style="border-radius: 10px; font-size: 0.9rem; font-weight: 600; border-color: #1877F2; color: #1877F2;">
+                                        <i class="fab fa-facebook-f me-2"></i> Facebook
+                                    </a>
+                                </div>
+                            </div>
+                         
+
+                            <div class="text-center mt-4 pb-2">
+                                <p class="mb-0 small text-muted">
+                                    Chưa có tài khoản?
+                                    <a asp-controller="KhachHang" asp-action="DangKy" class="text-primary fw-bold text-decoration-none">
+                                        Tạo tài khoản
+                                    </a>
+                                </p>
                             </div>
                         </form>
                     </div>
