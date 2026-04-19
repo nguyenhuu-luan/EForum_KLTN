@@ -49,14 +49,14 @@ body {
 
 /*Sửa chiều cao ảnh, ép ảnh về chugn kích thước tránh lỗi layout*/
 .fruite-img {
-    height: 200px; !important   
-    overflow: hidden; !important
+    height: 200px;  
+    overflow: hidden; 
 }
 
 .fruite-img img {
-    width: 100%; !important
-    height: 100%; !important
-    object-fit: cover; !important
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
 }
 
 /* riêng cho trang Home (carousel) */
@@ -78,3 +78,4 @@ body {
     transition: 0.5s;
 
 }
+ 

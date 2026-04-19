@@ -1,0 +1,115 @@
+﻿@model EForumKLTN.ViewModels.ProductVM
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-xl-10">
+            <div class="bg-light rounded h-100 p-4 shadow-sm">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h2 class="mb-0 text-dark fw-bold">
+                        <i class="fas fa-plus-circle me-2 text-primary"></i>Thêm Sách / Ebook Mới
+                    </h2>
+                    <a asp-action="ManageProducts" class="btn btn-outline-secondary btn-sm rounded-pill">
+                        <i class="fas fa-arrow-left me-1"></i> Quay lại danh sách
+                    </a>
+                </div>
+
+                <form asp-action="CreateProduct" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="form-floating mb-3">
+                                <input asp-for="TenHh" class="form-control" placeholder="Tên sách" required />
+                                <label asp-for="TenHh">Tên sách / Ebook</label>
+                                <span asp-validation-for="TenHh" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select asp-for="MaLoai" class="form-select" id="floatingSelect" aria-label="Danh mục sách">
+                                    @foreach (var loai in (List<EForumKLTN.Models.Loai>)ViewBag.LoaiList)
+                                    {
+                                        <option value="@loai.MaLoai">@loai.TenLoai</option>
+                                    }
+                                </select>
+                                <label for="floatingSelect">Danh mục sách</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="DonGia" type="number" class="form-control" placeholder="Giá bán" />
+                                <label asp-for="DonGia">Giá bán (VNĐ)</label>
+                                <span asp-validation-for="DonGia" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <textarea asp-for="MoTa" class="form-control" style="height: 150px" placeholder="Mô tả"></textarea>
+                                <label asp-for="MoTa">Mô tả ngắn gọn về nội dung sách</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <div class="card border-0 shadow-sm bg-white p-3 text-center h-100">
+                                <label class="form-label fw-bold text-orange-bold mb-3">Ảnh bìa sản phẩm</label>
+                                
+                                <div class="image-preview-container mb-3 border rounded d-flex align-items-center justify-content-center bg-light" style="height: 250px; overflow: hidden;">
+                                    <img id="previewImage" src="/Hinh/HangHoa/default.png"
+                                         style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                         alt="Preview" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <input asp-for="ImageFile" type="file" class="form-control form-control-sm"
+                                           accept="image/*"
+                                           onchange="previewFile(this)" />
+                                    <small class="text-secondary mt-2 d-block text-start italic">
+                                        <i class="fas fa-info-circle me-1"></i> Nên chọn ảnh định dạng .jpg, .png hoặc .webp
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4 text-secondary opacity-25">
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="reset" class="btn btn-light px-4 rounded-pill border">Làm mới form</button>
+                        <button type="submit" class="btn btn-primary px-5 rounded-pill fw-bold shadow-sm">
+                            <i class="fas fa-save me-2"></i> Lưu sản phẩm ngay
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function previewFile(input) {
+        var file = input.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewImage').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
+<style>
+    .text-orange-bold {
+        color: #e65100 !important;
+        font-weight: 700;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #e65100;
+        box-shadow: 0 0 0 0.25rem rgba(230, 81, 0, 0.1);
+    }
+
+    .image-preview-container {
+        border: 2px dashed #dee2e6 !important;
+        transition: 0.3s;
+    }
+
+        .image-preview-container:hover {
+            border-color: #e65100 !important;
+        }
+</style>

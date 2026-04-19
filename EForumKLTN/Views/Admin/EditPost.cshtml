@@ -1,0 +1,19 @@
+﻿@model EForumKLTN.Models.BaiViet
+
+<h2>Sửa bài viết</h2>
+
+<form asp-action="EditPost" method="post">
+
+    <input asp-for="MaBv" type="hidden" />
+
+    <div class="mb-3">
+        <label>Tiêu đề</label>
+        <input asp-for="TieuDe" class="form-control" />
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+        Lưu
+    </button>
+
+</form>

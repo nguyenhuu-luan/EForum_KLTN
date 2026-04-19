@@ -1,0 +1,94 @@
+﻿@model IEnumerable<EForumKLTN.Models.KhachHang>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4 shadow-sm">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h2 class="mb-0 text-dark fw-bold">
+                <i class="fas fa-users-cog me-2 text-primary"></i>Quản lý người dùng
+            </h2>
+            <a asp-action="CreateUser" class="btn btn-primary rounded-pill px-4">
+                <i class="fas fa-user-plus me-2"></i>Thêm người dùng
+            </a>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
+                <i class="fa fa-check-circle me-2"></i> @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-hover mb-0">
+                <thead class="bg-white text-dark shadow-sm">
+                    <tr class="text-dark">
+                        <th scope="col" class="py-3">Mã KH</th>
+                        <th scope="col" class="py-3">Họ tên</th>
+                        <th scope="col" class="py-3">Điện thoại</th>
+                        <th scope="col" class="py-3 text-center">Vai trò</th>
+                        <th scope="col" class="py-3 text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold text-primary">#@item.MaKh</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    @*này k xài bỏ cũng đc, cái hình nó hơi kỳ :))*@
+                                    <img class="rounded-circle me-2" src="/Hinh/KhachHang/@item.Hinh" style="width: 35px; height: 35px;"> 
+                                    <span>@item.HoTen</span>
+                                </div>
+                            </td>
+                            <td>@item.DienThoai</td>
+                            <td class="text-center">
+                                @if (item.IsAdmin)
+                                {
+                                    <span class="badge rounded-pill bg-soft-success text-success border border-success px-3 py-2">
+                                        <i class="fas fa-user-shield me-1"></i> Admin
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge rounded-pill bg-soft-secondary text-secondary border border-secondary px-3 py-2">
+                                        <i class="fas fa-user me-1"></i> User
+                                    </span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a asp-action="EditUser" asp-route-id="@item.MaKh" 
+                                       class="btn btn-sm btn-warning text-white px-3 rounded-pill shadow-sm">
+                                        <i class="fas fa-edit me-1"></i> Sửa
+                                    </a>        
+                                    <a asp-action="DeleteUser" asp-route-id="@item.MaKh" 
+                                       class="btn btn-sm btn-danger px-3 rounded-pill shadow-sm" 
+                                       onclick="return confirm('Bạn có chắc chắn muốn xóa user này không?')">
+                                        <i class="fas fa-trash-alt me-1"></i> Xóa
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-soft-success { background-color: #d1e7dd !important; }
+    .bg-soft-secondary { background-color: #e2e3e5 !important; }    
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.03);
+        transition: 0.3s;
+    }    
+    .btn-sm.rounded-circle {
+        width: 32px;
+        height: 32px;
+        padding: 5px;
+        line-height: 1;
+    }
+</style>

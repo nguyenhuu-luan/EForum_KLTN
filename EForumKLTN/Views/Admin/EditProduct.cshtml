@@ -1,0 +1,66 @@
+﻿@model EForumKLTN.ViewModels.ProductVM
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-xl-8">
+            <div class="bg-light rounded p-4 shadow-sm">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h2 class="mb-0 text-dark fw-bold">
+                        <i class="fas fa-book-medical me-2 text-primary"></i>Thông tin Ebook
+                    </h2>
+                    <a asp-action="ManageProducts" class="btn btn-outline-secondary btn-sm rounded-pill">
+                        <i class="fas fa-arrow-left me-1"></i> Quay lại
+                    </a>
+                </div>
+
+                <form asp-action="EditProduct" method="post" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="MaHh" />
+                    <input type="hidden" asp-for="Hinh" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="TenHh" class="form-control" placeholder="Tên sách" />
+                                <label>Tên sách / Ebook</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select asp-for="MaLoai" class="form-select" id="floatingSelect">
+                                    @foreach (var loai in (List<EForumKLTN.Models.Loai>)ViewBag.LoaiList)
+                                    {
+                                        <option value="@loai.MaLoai">@loai.TenLoai</option>
+                                    }
+                                </select>
+                                <label for="floatingSelect">Danh mục sách</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="DonGia" type="number" class="form-control" placeholder="Giá bán" />
+                                <label>Giá bán (VNĐ)</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <div class="mb-3">
+                                <label class="form-label d-block text-start small fw-bold">Hình ảnh sản phẩm</label>
+                                <div class="border rounded p-2 bg-white mb-2">
+                                    <img id="previewImage" src="/Hinh/SanPham/@(Model?.Hinh ?? "default.png")"
+                                         style="height: 150px; object-fit: contain;" alt="Preview" />
+                                </div>
+                                <input asp-for="ImageFile" type="file" class="form-control"
+                                       onchange="document.getElementById('previewImage').src = window.URL.createObjectURL(this.files[0])" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <textarea asp-for="MoTa" class="form-control" style="height: 150px" placeholder="Mô tả"></textarea>
+                        <label>Mô tả chi tiết sản phẩm</label>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary py-3 rounded-pill fw-bold shadow-sm">
+                            <i class="fas fa-save me-2"></i> Lưu sản phẩm
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

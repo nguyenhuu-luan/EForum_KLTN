@@ -53,21 +53,19 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a asp-controller="Forum" asp-action="Index" class="nav-item nav-link active">Forum</a>
-                            <a asp-controller="HangHoa" asp-action="Index" class="nav-item nav-link">Shop</a>
-
-                            @* Comment cái dropdown này mốt có xài thì có sẵn đỡ code :))
+                            <a asp-controller="Home" asp-action="ShowIndex" class="nav-item nav-link active">Trang chủ</a>
+                            <a asp-controller="Forum" asp-action="Index" class="nav-item nav-link">Diễn đàn</a>
+                            <a asp-controller="HangHoa" asp-action="Index" class="nav-item nav-link">Cửa hàng</a>                          
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Danh mục</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="cart.html" class="dropdown-item">Giỏ hàng</a>
-                                    <a href="checkout.html" class="dropdown-item">Thanh toán</a>
-                                    <a href="404.html" class="dropdown-item">404 Page</a>
+                                    <a href="cart.html" class="dropdown-item">Tài liệu miễn phí</a>
+                                    <a href="checkout.html" class="dropdown-item">Ưu đãi sinh viên</a>
+                                    <a href="404.html" class="dropdown-item"></a>
                                 </div>
-                            </div>
-                            *@
-
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            </div>                            
+                            <a href="contact.html" class="nav-item nav-link">Hướng dẫn</a>
+                            <a href="contact.html" class="nav-item nav-link">Liên hệ</a>
                             @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                             {
                                 <a asp-controller="Admin" asp-action="Index" class="nav-item nav-link text-danger fw-bold">
