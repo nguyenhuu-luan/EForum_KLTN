@@ -51,7 +51,7 @@ namespace EForumKLTN.Controllers
 
                     db.Add(khachHang);
                     db.SaveChanges();
-                    return RedirectToAction("Index", "HangHoa");
+                    return RedirectToAction("DangNhap");
                 }
                 catch (Exception ex)
                 {
@@ -130,5 +130,6 @@ namespace EForumKLTN.Controllers
             await HttpContext.SignOutAsync();
             return Redirect("/");
         }
+
     }
 } 

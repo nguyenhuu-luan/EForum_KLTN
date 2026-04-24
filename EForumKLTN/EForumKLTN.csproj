@@ -23,7 +23,6 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Admin\" />
     <Folder Include="Data\" />
-    <Folder Include="wwwroot\Hinh\KhachHang\" />
   </ItemGroup>
 
 </Project>

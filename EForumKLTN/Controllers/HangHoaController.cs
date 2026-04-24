@@ -13,12 +13,28 @@ namespace EForumKLTN.Controllers
         {
             db = context;
         }
-        public IActionResult Index(int? loai)
+        public IActionResult Index(int? loai, string? sort) 
         {
             var hangHoas = db.HangHoas.AsQueryable(); 
             if(loai.HasValue)
             {
                 hangHoas = hangHoas.Where(p => p.MaLoai == loai.Value);
+            }
+
+            switch (sort)
+            {
+                case "price_asc":
+                    hangHoas = hangHoas.OrderBy(p => p.DonGia);
+                    break;
+                case "price_desc":
+                    hangHoas = hangHoas.OrderByDescending(p => p.DonGia);
+                    break;
+                case "newest":
+                    hangHoas = hangHoas.OrderByDescending(p => p.MaHh);
+                    break;
+                default:
+                    hangHoas = hangHoas.OrderBy(p => p.TenHh);  
+                    break;
             }
 
             var result = hangHoas.Select(p => new HangHoaVM
