@@ -20,12 +20,9 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-
-// logging
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
-// global exception
 AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
 {
     Console.WriteLine("UNHANDLED: " + e.ExceptionObject.ToString());
@@ -42,12 +39,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.LoginPath = "/KhachHang/DangNhap";
     options.AccessDeniedPath = "/AccessDenied";
 });
-
-
-
 var app = builder.Build();
 
-// 🔥 THÊM CÁI NÀY
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();

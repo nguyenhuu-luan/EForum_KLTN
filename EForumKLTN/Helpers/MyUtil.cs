@@ -5,10 +5,7 @@ namespace EForumKLTN.Helpers
     {
         public static string UploadHinh(IFormFile Hinh, string folder, IWebHostEnvironment env)
         {            
-                var uploadPath = Path.Combine(env.WebRootPath, "Hinh", folder);              
-                //TODO: Bug ngầm crash web khi tên img >50 ky tu -> tang so luong trong dbs hoặc xai` guid của asp.net (nay` vip hon)      
-
-                // tạo folder nếu chưa có
+                var uploadPath = Path.Combine(env.WebRootPath, "Hinh", folder);                       
                 if (!Directory.Exists(uploadPath))
                 {
                     Directory.CreateDirectory(uploadPath);

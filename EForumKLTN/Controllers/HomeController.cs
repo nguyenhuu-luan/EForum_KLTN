@@ -39,7 +39,7 @@ namespace EForumKLTN.Controllers
         {
             var model = new HomeVM
             {
-                // Lấy 3 bài viết mới nhất, kèm thông tin người đăng và chủ đề
+                // lấy 3 bài viết mới nhất + thông tin người đăng và chủ đề
                 TopPosts = await _db.BaiViets
                     .Include(b => b.MaKhNavigation)
                     .Include(b => b.MaCdNavigation)
@@ -47,9 +47,9 @@ namespace EForumKLTN.Controllers
                     .Take(3)
                     .ToListAsync(),
 
-                // Lấy 10 sản phẩm bất kỳ hoặc mới nhất
+                // lấy 10 sản phẩm bất kỳ hoặc mới nhất
                 FeaturedProducts = await _db.HangHoas
-                    .Include(s => s.MaLoaiNavigation) // nếu cần TenLoai
+                    .Include(s => s.MaLoaiNavigation) // nếu cần tebloai
                     .OrderByDescending(s => s.MaHh)
                     .Take(10)
                     .Select(s => new HangHoaVM

@@ -33,7 +33,7 @@
         public int MaLoai { get; set; }
         public double? DonGia { get; set; }
         public string? MoTa { get; set; }
-        public string? Hinh { get; set; } // Lưu tên file hiện tại
+        public string? Hinh { get; set; }  
         public IFormFile? ImageFile { get; set; } // upload hinh 
     }
 }

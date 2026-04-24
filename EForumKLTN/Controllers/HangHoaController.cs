@@ -80,5 +80,34 @@ namespace EForumKLTN.Controllers
 
             return View(result);
         }
+
+
+
+        #region API goi y cho cai thanh search navbar ne` :> ngon luon 
+        [HttpGet]
+        public async Task<IActionResult> GetSearchSuggestions(string query)
+        {
+            if (string.IsNullOrEmpty(query))
+            {
+                return Ok(new List<object>());
+            }
+
+            var suggestions = await db.HangHoas
+                .Include(p => p.MaLoaiNavigation)
+                .Where(p => p.TenHh.Contains(query))
+                .Take(3)  
+                .Select(p => new
+                {
+                    maHh = p.MaHh,
+                    tenHh = p.TenHh,
+                    hinh = p.Hinh ?? "default.jpg",
+                    gia = p.DonGia ?? 0,
+                    loai = p.MaLoaiNavigation.TenLoai
+                })
+                .ToListAsync();
+
+            return Json(suggestions);
+        }
+        #endregion
     }
 }

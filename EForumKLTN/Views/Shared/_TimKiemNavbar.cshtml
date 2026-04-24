@@ -1,0 +1,111 @@
+﻿@*cai nay la partialview cho thang search tren navbar tjai no co recommend nua nen tach ra de sua hon*@﻿
+<form name="SearchForm" asp-action="Search" asp-controller="HangHoa" method="get" class="position-relative" style="overflow: visible !important;" autocomplete="off">
+    <div class="input-group overflow-hidden shadow-sm" style="border-radius: 25px;">
+        <input type="search" class="form-control border-0 bg-light px-4" placeholder="Tìm giáo trình, ebook..." name="query" id="searchText" style="height: 45px; font-size: 0.9rem;" autocomplete="off">
+        <button type="submit" class="btn bg-light border-0 text-secondary px-3" id="searchButton">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
+
+    <div id="search-recommendations" class="dropdown-menu w-100 shadow border-0 mt-1" style="display: none; max-height: 300px; overflow-y: auto;">
+    </div>
+</form>
+
+<style>
+    form[name="SearchForm"] {
+        position: relative !important;
+        overflow: visible !important;
+    }
+    #searchText:focus {
+        outline: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        background-color: #fff !important;
+    }
+    .input-group:focus-within {
+        border: 1px solid #81c408 !important; 
+        box-shadow: 0 0 5px rgba(129, 196, 8, 0.3);
+    }
+
+    .input-group {
+        border: 1px solid #ced4da; 
+        transition: all 0.2s ease-in-out;
+    }
+
+    #search-recommendations {
+        display: none;
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        width: 100% !important;
+        min-width: 300px;         
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        background-color: #ffffff !important;
+        border: 1px solid #ddd !important;
+        border-radius: 0 0 15px 15px !important;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2) !important;
+        z-index: 999999 !important;
+    }
+        #search-recommendations .dropdown-item {
+        background: #fff !important;
+        color: #333 !important;
+        border-bottom: 1px solid #f1f1f1;
+        
+    }
+        .dropdown-item:hover {
+        background-color: #f8f9fa !important;
+        color: #81c408 !important;
+    }
+        #searchText:focus {
+        box-shadow: none;
+        outline: none;
+    }
+</style>
+
+<script>
+    $(document).ready(function () { //cai nay de doi htmlload -> js chay cuoi
+        let timeout = null;
+        $("#searchText").on("keyup", function () {
+            clearTimeout(timeout);
+            let query = $(this).val().trim();
+            let $dropdown = $("#search-recommendations");
+            if (query.length < 2) {
+                $dropdown.hide();
+                return;
+            }
+
+            timeout = setTimeout(function () {
+                $.ajax({
+                    url: '@Url.Action("GetSearchSuggestions", "HangHoa")',
+                    data: { query: query },
+                    success: function (data) {
+                        $dropdown.empty();
+                        if (data.length > 0) {
+                            data.forEach(item => {
+                                $dropdown.append(`
+                                    <a class="dropdown-item d-flex align-items-center py-2 border-bottom" href="/HangHoa/Detail/${item.maHh}">
+                                        <img src="/Hinh/SanPham/${item.hinh}" class="rounded me-2" style="width:40px; height:40px; object-fit:cover;">
+                                        <div style="white-space: normal;">
+                                            <div class="fw-bold text-dark" style="font-size: 0.85rem;">${item.tenHh}</div>
+                                            <small class="text-primary">${item.gia.toLocaleString()}đ</small>
+                                        </div>
+                                    </a>
+                                `);
+                            });
+                            $dropdown.show();
+                        } else {
+                            $dropdown.hide();
+                        }
+                    }
+                });
+            }, 300);  
+        });
+
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest(".position-relative").length) {
+                $("#search-recommendations").hide();
+            }
+        });
+    });
+</script>

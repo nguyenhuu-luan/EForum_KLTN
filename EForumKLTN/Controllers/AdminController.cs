@@ -81,7 +81,6 @@ public class AdminController : Controller
         if (id == null)
             return NotFound();
 
-        // lấy đúng user có MaKh này
         var user = _db.KhachHangs
                            .FirstOrDefault(x => x.MaKh == id);
 
@@ -156,8 +155,7 @@ public class AdminController : Controller
     #region ProductManagement
 
     public IActionResult ManageProducts()
-    {
-        // Lấy dữ liệu từ DB và ép kiểu (Map) sang HangHoaVM
+    {        
         var products = _db.HangHoas
             .Include(p => p.MaLoaiNavigation)
             .Select(p => new HangHoaVM
@@ -169,14 +167,14 @@ public class AdminController : Controller
                 MoTaNgan = p.MoTa ?? "",
                 TenLoai = p.MaLoaiNavigation.TenLoai
             })
-            .ToList(); // Lúc này kết quả trả về là List<HangHoaVM>
+            .ToList();  
 
         return View(products);
     }
 
     public IActionResult CreateProduct()
     {
-        // Load danh mục sách cho dropdown
+     
         ViewBag.LoaiList = _db.Loais.ToList();
         return View();
     }
@@ -244,7 +242,6 @@ public class AdminController : Controller
         {
             if (model.ImageFile != null)
             {
-                // Upload ảnh mới
                 var hinhName = Guid.NewGuid().ToString() + Path.GetExtension(model.ImageFile.FileName);
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Hinh", "SanPham", hinhName);
                 using (var stream = new FileStream(path, FileMode.Create))

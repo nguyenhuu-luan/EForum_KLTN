@@ -38,10 +38,9 @@ public class ForumController : Controller
 
     #region posttopic
     [HttpGet]
-    [Authorize] // Tự động đá về Login + kèm ReturnUrl nếu chưa login
+    [Authorize] // tự động đá về login + kèm returnurl nếu chưa login
     public IActionResult Create(int? maCd)
     {
-        // Dùng SelectList để View đổ Dropdown cho dễ
         ViewBag.ChuDes = new SelectList(_db.ChuDes.ToList(), "MaCd", "TenChuDe");
         ViewBag.MaCd = maCd;
         return View();

@@ -8,7 +8,7 @@ namespace EForumKLTN.ViewModels
         [Display(Name = "Tên đăng nhập")]
         [Required(ErrorMessage = "*")]
         [MaxLength(20, ErrorMessage = "Tối đa 20 kí tự")]
-        public string MaKh { get; set; } //null + "!" có nghĩa là tắt cảnh báo khi null
+        public string MaKh { get; set; } 
 
         [Display(Name = "Mật khẩu")]
         [Required(ErrorMessage = "*")]
@@ -28,7 +28,7 @@ namespace EForumKLTN.ViewModels
         [RegularExpression(@"0[9875]\d{8}", ErrorMessage = "Chưa đúng định dạng di động Việt Nam")]
         public string DienThoai { get; set; }
 
-        public string? Hinh { get; set; } //cái "?" có nghĩa là cho phép null
+        public string? Hinh { get; set; } 
 
         [Display(Name = "Địa chỉ")]
         [MaxLength(60, ErrorMessage = "Tối đa 60 kí tự")]
