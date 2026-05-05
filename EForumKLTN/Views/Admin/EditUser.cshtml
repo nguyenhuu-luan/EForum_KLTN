@@ -43,6 +43,17 @@
                         </div>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="fw-bold mb-2">Vai trò tài khoản</label>
+
+                        <select asp-for="VaiTro" class="form-control">
+                            <option value="0">User</option>
+                            <option value="1">Nhân viên</option>
+                        </select>
+
+                        <span asp-validation-for="VaiTro" class="text-danger small"></span>
+                    </div>
+
                     <div class="d-grid gap-2 pt-3">
                         <button type="submit" class="btn btn-primary py-3 rounded-pill fw-bold shadow-sm">
                             <i class="fas fa-save me-2"></i> Lưu thay đổi

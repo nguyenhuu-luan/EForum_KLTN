@@ -48,7 +48,8 @@ public class AdminController : Controller
             MaKh = user.MaKh,
             HoTen = user.HoTen,
             DienThoai = user.DienThoai,
-            IsAdmin = user.IsAdmin
+            IsAdmin = user.IsAdmin,
+            VaiTro = user.VaiTro
         };
 
         return View(vm);
@@ -68,6 +69,7 @@ public class AdminController : Controller
         user.HoTen = model.HoTen;
         user.DienThoai = model.DienThoai;
         user.IsAdmin = model.IsAdmin;
+        user.VaiTro = model.VaiTro;
 
         _db.SaveChanges();
 
@@ -91,6 +93,41 @@ public class AdminController : Controller
         _db.SaveChanges();
 
         TempData["SuccessMessage"] = "Xóa người dùng thành công!";
+        return RedirectToAction("ManageUsers");
+    }
+    #endregion
+
+    #region NhanvienManagement
+    [Authorize(Roles = "Admin")]
+    public IActionResult GenerateCoupon(string id)
+    {
+        var nv = _db.KhachHangs.FirstOrDefault(x => x.MaKh == id);
+
+        if (nv == null || nv.VaiTro != 1)
+            return NotFound();
+
+        var coupon = _db.Coupons.FirstOrDefault(c => c.MaKH_NV == id);
+
+        if (coupon == null)
+        {
+            coupon = new Coupon
+            {
+                MaCoupon = "NV" + id, 
+                MaKH_NV = id,
+                NgayTao = DateTime.Now
+            };
+
+            _db.Coupons.Add(coupon);
+        }
+        else
+        {
+            // nếu muốn cập nhật lại mã mới thì mở đoạn này
+            // coupon.MaCoupon = "NV" + id + "_" + Guid.NewGuid().ToString().Substring(0, 5);
+        }
+
+        _db.SaveChanges();
+
+        TempData["SuccessMessage"] = "Tạo mã nhân viên thành công!";
         return RedirectToAction("ManageUsers");
     }
     #endregion

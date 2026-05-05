@@ -50,6 +50,12 @@
                                         <i class="fas fa-user-shield me-1"></i> Admin
                                     </span>
                                 }
+                                else if (item.VaiTro == 1)
+                                {
+                                    <span class="badge rounded-pill bg-warning text-dark border border-warning px-3 py-2">
+                                        <i class="fas fa-user-tie me-1"></i> Nhân viên
+                                    </span>
+                                }
                                 else
                                 {
                                     <span class="badge rounded-pill bg-soft-secondary text-secondary border border-secondary px-3 py-2">
@@ -68,6 +74,14 @@
                                        onclick="return confirm('Bạn có chắc chắn muốn xóa user này không?')">
                                         <i class="fas fa-trash-alt me-1"></i> Xóa
                                     </a>
+                                    @if (!item.IsAdmin && item.VaiTro == 1)
+                                    {
+                                        <a asp-action="GenerateCoupon"
+                                           asp-route-id="@item.MaKh"
+                                           class="btn btn-sm btn-success px-3 rounded-pill shadow-sm">
+                                            <i class="fas fa-key me-1"></i> Tạo mã
+                                        </a>
+                                    }
                                 </div>
                             </td>
                         </tr>

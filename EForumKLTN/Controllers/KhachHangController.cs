@@ -88,12 +88,23 @@ namespace EForumKLTN.Controllers
                         ModelState.AddModelError("Lỗi", "Sai thông tin đăng nhập!");
                     } else
                     {
+                        string role = "Customer";
+
+                        if (khachHang.IsAdmin)
+                        {
+                            role = "Admin";
+                        }
+                        else if (khachHang.VaiTro == 1)
+                        {
+                            role = "NhanVien";
+                        }
                         var claims = new List<Claim> {
                             new Claim(ClaimTypes.Email, khachHang.Email),
                             new Claim(ClaimTypes.Name, khachHang.HoTen),
                             new Claim("CustomerID", khachHang.MaKh),
                             new Claim("Hinh", khachHang.Hinh ?? "default-user.png"),
-                            new Claim(ClaimTypes.Role, khachHang.IsAdmin ? "Admin" : "Customer")
+                            //new Claim(ClaimTypes.Role, khachHang.IsAdmin ? "Admin" : "Customer")
+                            new Claim(ClaimTypes.Role, role) 
                         };
 
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

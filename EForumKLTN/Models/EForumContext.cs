@@ -32,6 +32,7 @@ public partial class EForumContext : DbContext
     public virtual DbSet<ChuDe> ChuDes { get; set; }
 
     public virtual DbSet<BinhLuan> BinhLuans { get; set; }
+    public DbSet<Coupon> Coupons { get; set; }
 
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -210,6 +211,30 @@ public partial class EForumContext : DbContext
                 .HasForeignKey(d => d.MaKh)
                 .HasConstraintName("FK_BinhLuan_KhachHang");
         });
+
+        modelBuilder.Entity<Coupon>(entity =>
+        {
+            entity.HasKey(e => e.MaCoupon).HasName("PK_Coupon");
+
+            entity.ToTable("Coupon");
+
+            entity.Property(e => e.MaCoupon)
+                .HasMaxLength(50);
+
+            entity.Property(e => e.MaKH_NV)
+                .HasMaxLength(20)
+                .HasColumnName("MaKH_NV");
+      
+            entity.Property(e => e.NgayTao)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+
+            entity.HasOne(d => d.KhachHang)
+                .WithMany(p => p.Coupons)
+                .HasForeignKey(d => d.MaKH_NV)
+                .HasConstraintName("FK_Coupon_KhachHang");
+        });
+
 
         OnModelCreatingPartial(modelBuilder);
     }

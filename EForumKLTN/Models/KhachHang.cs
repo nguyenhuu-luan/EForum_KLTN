@@ -34,4 +34,5 @@ public partial class KhachHang
     public virtual ICollection<LichSuChatbot> LichSuChatbots { get; set; } = new List<LichSuChatbot>();
 
     public virtual ICollection<BinhLuan> BinhLuans { get; set; } = new List<BinhLuan>();
+    public virtual ICollection<Coupon> Coupons { get; set; } = new List<Coupon>();
 }

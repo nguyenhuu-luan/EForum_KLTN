@@ -9,5 +9,7 @@
         public string? DienThoai { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        public int VaiTro { get; set; }
     }
 }
