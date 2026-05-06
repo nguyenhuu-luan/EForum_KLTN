@@ -1,7 +1,8 @@
-﻿using EForumKLTN.Models;
-using Microsoft.AspNetCore.Mvc;
-using EForumKLTN.Helpers;
+﻿using EForumKLTN.Helpers;
+using EForumKLTN.Models;
 using EForumKLTN.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EForumKLTN.Controllers
 {
@@ -63,5 +64,72 @@ namespace EForumKLTN.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        #region ThanhToan
+        [Authorize]
+        public IActionResult ThanhToan()
+        {
+            var gioHang = Cart;
+
+            if (gioHang == null || gioHang.Count == 0)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var userId = User.FindFirst("CustomerID")?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("DangNhap", "KhachHang");
+            }
+
+            // ✅ tính tổng tiền
+            double tongTien = gioHang.Sum(p => p.ThanhTien);
+
+            // ✅ tạo hóa đơn
+
+            var hoaDon = new HoaDon
+            {
+                MaKh = userId,
+                NgayDat = DateTime.Now,
+                MaTrangThai = 0, // 0 = chờ thanh toán
+                TongTien = (float)tongTien
+            };
+
+            db.HoaDons.Add(hoaDon);
+            db.SaveChanges(); // ⚠️ bắt buộc để có MaHd
+
+            // ✅ lưu chi tiết hóa đơn
+            foreach (var item in gioHang)
+            {
+                var ct = new ChiTietHd
+                {
+                    MaHd = hoaDon.MaHd,
+                    MaHh = item.MaHH,
+                    SoLuong = item.SoLuong,
+                    DonGia = item.DonGia
+                };
+
+                db.ChiTietHds.Add(ct);
+            }
+
+            db.SaveChanges();
+
+            // ✅ tạo nội dung chuyển khoản
+            string noiDung = $"HD{hoaDon.MaHd}";
+
+            // ⚠️ THAY thông tin của m vào đây
+            string bankCode = "970422"; // ví dụ MB Bank
+            string soTaiKhoan = "01904006211923";
+            string tenTaiKhoan = "NGUYEN%20HUU%20LUAN";
+
+            string qrUrl = $"https://img.vietqr.io/image/{bankCode}-{soTaiKhoan}-compact2.png?amount={tongTien}&addInfo={noiDung}&accountName={tenTaiKhoan}";
+
+            ViewBag.QR = qrUrl;
+            ViewBag.TongTien = tongTien;
+            ViewBag.NoiDung = noiDung;
+
+            return View();
+        }
+        #endregion
     }
 }
