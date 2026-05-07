@@ -303,4 +303,16 @@ public class AdminController : Controller
 
     #endregion
 
+    #region EmployeeManagement
+    public IActionResult ManageEmployees()
+    {
+        var nhanViens = _db.KhachHangs
+            .Include(x => x.Coupons)
+            .Where(x => x.VaiTro == 1)
+            .ToList();
+
+        return View(nhanViens);
+    }
+    #endregion
+
 }

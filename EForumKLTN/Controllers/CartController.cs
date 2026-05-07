@@ -67,7 +67,8 @@ namespace EForumKLTN.Controllers
 
         #region ThanhToan
         [Authorize]
-        public IActionResult ThanhToan()
+        [HttpPost]
+        public IActionResult ThanhToan(string? couponCode)
         {
             var gioHang = Cart;
 
@@ -82,23 +83,31 @@ namespace EForumKLTN.Controllers
                 return RedirectToAction("DangNhap", "KhachHang");
             }
 
-            // ✅ tính tổng tiền
             double tongTien = gioHang.Sum(p => p.ThanhTien);
+            string? maNhanVien = null;
 
-            // ✅ tạo hóa đơn
+            if (!string.IsNullOrEmpty(couponCode))
+            {
+                var coupon = db.Coupons
+                    .FirstOrDefault(c => c.MaCoupon == couponCode);
 
+                if (coupon != null)
+                {
+                    maNhanVien = coupon.MaKH_NV;
+                }
+            }
             var hoaDon = new HoaDon
             {
                 MaKh = userId,
                 NgayDat = DateTime.Now,
-                MaTrangThai = 0, // 0 = chờ thanh toán
+                MaTrangThai = 0,
+                MaKH_NV = maNhanVien,
                 TongTien = (float)tongTien
             };
 
             db.HoaDons.Add(hoaDon);
-            db.SaveChanges(); // ⚠️ bắt buộc để có MaHd
+            db.SaveChanges();  
 
-            // ✅ lưu chi tiết hóa đơn
             foreach (var item in gioHang)
             {
                 var ct = new ChiTietHd
@@ -113,17 +122,14 @@ namespace EForumKLTN.Controllers
             }
 
             db.SaveChanges();
-
-            // ✅ tạo nội dung chuyển khoản
+            HttpContext.Session.Remove(MySetting.CART_KEY); //nay` qtrong nha, an thanh toan -> remove cart
             string noiDung = $"HD{hoaDon.MaHd}";
 
-            // ⚠️ THAY thông tin của m vào đây
-            string bankCode = "970422"; // ví dụ MB Bank
+            string bankCode = "970422";  
             string soTaiKhoan = "01904006211923";
             string tenTaiKhoan = "NGUYEN%20HUU%20LUAN";
 
-            string qrUrl = $"https://img.vietqr.io/image/{bankCode}-{soTaiKhoan}-compact2.png?amount={tongTien}&addInfo={noiDung}&accountName={tenTaiKhoan}";
-
+            string qrUrl = $"https://img.vietqr.io/image/{bankCode}-{soTaiKhoan}-compact2.png?amount={(int)tongTien}&addInfo={Uri.EscapeDataString(noiDung)}&accountName={Uri.EscapeDataString("NGUYEN HUU LUAN")}";
             ViewBag.QR = qrUrl;
             ViewBag.TongTien = tongTien;
             ViewBag.NoiDung = noiDung;

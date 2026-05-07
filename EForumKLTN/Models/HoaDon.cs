@@ -19,6 +19,7 @@ public partial class HoaDon
 
     public double? TongTien { get; set; }
 
+    public string? MaKH_NV { get; set; }
     public virtual ICollection<ChiTietHd> ChiTietHds { get; set; } = new List<ChiTietHd>();
 
     public virtual KhachHang MaKhNavigation { get; set; } = null!;

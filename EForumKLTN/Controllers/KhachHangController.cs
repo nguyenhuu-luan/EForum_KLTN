@@ -138,6 +138,7 @@ namespace EForumKLTN.Controllers
         [Authorize]
         public async Task<IActionResult> DangXuat()
         {
+            HttpContext.Session.Remove(MySetting.CART_KEY); //nay cung v luc user logout -> xoa session
             await HttpContext.SignOutAsync();
             return Redirect("/");
         }
