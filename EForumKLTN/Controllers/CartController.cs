@@ -1,5 +1,6 @@
 ﻿using EForumKLTN.Helpers;
 using EForumKLTN.Models;
+using EForumKLTN.Services;
 using EForumKLTN.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +9,13 @@ namespace EForumKLTN.Controllers
 {
     public class CartController : Controller
     {
+        private readonly CheckDiscount _discountService;
+
         private readonly EForumContext db;
-        public CartController(EForumContext context) 
+        public CartController(EForumContext context, CheckDiscount discountService) 
         {
             db = context;
+            _discountService = discountService;
         }
 
         public List<CartItem> Cart => HttpContext.Session.Get<List<CartItem>>(MySetting.CART_KEY) ?? new List<CartItem>();
@@ -73,68 +77,89 @@ namespace EForumKLTN.Controllers
             var gioHang = Cart;
 
             if (gioHang == null || gioHang.Count == 0)
-            {
                 return RedirectToAction("Index");
-            }
 
             var userId = User.FindFirst("CustomerID")?.Value;
+
             if (string.IsNullOrEmpty(userId))
-            {
                 return RedirectToAction("DangNhap", "KhachHang");
-            }
 
-            double tongTien = gioHang.Sum(p => p.ThanhTien);
-            string? maNhanVien = null;
+            // 👉 dùng service
+            var result = _discountService.Calculate(gioHang, couponCode);
 
-            if (!string.IsNullOrEmpty(couponCode))
-            {
-                var coupon = db.Coupons
-                    .FirstOrDefault(c => c.MaCoupon == couponCode);
-
-                if (coupon != null)
-                {
-                    maNhanVien = coupon.MaKH_NV;
-                }
-            }
             var hoaDon = new HoaDon
             {
                 MaKh = userId,
                 NgayDat = DateTime.Now,
                 MaTrangThai = 0,
-                MaKH_NV = maNhanVien,
-                TongTien = (float)tongTien
+                MaKH_NV = result.maNhanVien,
+                TongTien = (float)result.finalTotal // 👈 QUAN TRỌNG: lưu sau giảm
             };
 
             db.HoaDons.Add(hoaDon);
-            db.SaveChanges();  
+            db.SaveChanges();
 
             foreach (var item in gioHang)
             {
-                var ct = new ChiTietHd
+                db.ChiTietHds.Add(new ChiTietHd
                 {
                     MaHd = hoaDon.MaHd,
                     MaHh = item.MaHH,
                     SoLuong = item.SoLuong,
                     DonGia = item.DonGia
-                };
-
-                db.ChiTietHds.Add(ct);
+                });
             }
 
             db.SaveChanges();
-            HttpContext.Session.Remove(MySetting.CART_KEY); //nay` qtrong nha, an thanh toan -> remove cart
+
+            HttpContext.Session.Remove(MySetting.CART_KEY);
+
             string noiDung = $"HD{hoaDon.MaHd}";
 
-            string bankCode = "970422";  
-            string soTaiKhoan = "01904006211923";
-            string tenTaiKhoan = "NGUYEN%20HUU%20LUAN";
+            // 👉 QR = FINAL TOTAL (đúng yêu cầu)
+            string qrUrl =
+                $"https://img.vietqr.io/image/970422-01904006211923-compact2.png" +
+                $"?amount={(int)result.finalTotal}" +
+                $"&addInfo={Uri.EscapeDataString(noiDung)}";
 
-            string qrUrl = $"https://img.vietqr.io/image/{bankCode}-{soTaiKhoan}-compact2.png?amount={(int)tongTien}&addInfo={Uri.EscapeDataString(noiDung)}&accountName={Uri.EscapeDataString("NGUYEN HUU LUAN")}";
             ViewBag.QR = qrUrl;
-            ViewBag.TongTien = tongTien;
+
+            // 👉 hiển thị hóa đơn đúng format bạn muốn
+            ViewBag.Total = result.total;
+            ViewBag.Discount = result.discount;
+            ViewBag.FinalTotal = result.finalTotal;
+            ViewBag.TongTien = result.finalTotal;
             ViewBag.NoiDung = noiDung;
 
             return View();
+        }        
+        #endregion
+
+        #region Checkdiscount
+        [HttpGet]
+        public IActionResult CheckCoupon(string code)
+        {
+            var result = _discountService.Calculate(Cart, code);
+
+            if (result.maNhanVien == null && !string.IsNullOrEmpty(code))
+            {
+                return Json(new
+                {
+                    valid = false,
+                    discount = 0,
+                    total = result.total,
+                    finalTotal = result.finalTotal,
+                    message = "Mã không hợp lệ"
+                });
+            }
+
+            return Json(new
+            {
+                valid = true,
+                discount = result.discount,
+                total = result.total,
+                finalTotal = result.finalTotal
+            });
         }
         #endregion
     }
