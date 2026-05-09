@@ -78,4 +78,132 @@ body {
     transition: 0.5s;
 
 }
- 
+
+/* =========================
+   CHATBOT WIDGET
+========================= */
+
+#chatbot-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 50px;
+    z-index: 9999;
+}
+
+/* Floating Button */
+#chatbot-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    background: #81c408;
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Chat Box */
+#chatbot-box {
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    margin-bottom: 15px;
+    max-height: 80vh;
+}
+
+/* Header */
+.chatbot-header {
+    background: #81c408;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#close-chatbot {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+}
+
+/* Body */
+.chatbot-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f8f9fa;
+}
+
+/* Messages */
+.bot-message,
+.user-message {
+    padding: 10px 14px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.bot-message {
+    background: #e9ecef;
+    color: #333;
+}
+
+.user-message {
+    background: #81c408;
+    color: white;
+    margin-left: auto;
+}
+
+/* Footer */
+.chatbot-footer {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #eee;
+    background: white;
+}
+
+#chatbot-input {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    outline: none;
+}
+
+#send-chatbot {
+    margin-left: 10px;
+    border: none;
+    width: 45px;
+    border-radius: 10px;
+    background: #81c408;
+    color: white;
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+
+    #chatbot-widget {
+        right: 15px;
+        bottom: 90px;
+    }
+
+    #chatbot-box {
+        width: 320px;
+        max-width: calc(100vw - 30px);
+        height: 420px;
+        border-radius: 18px;
+    }
+
+    #chatbot-toggle {
+        width: 55px;
+        height: 55px;
+        font-size: 20px;
+    }
+}

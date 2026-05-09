@@ -84,7 +84,6 @@ namespace EForumKLTN.Controllers
             if (string.IsNullOrEmpty(userId))
                 return RedirectToAction("DangNhap", "KhachHang");
 
-            // 👉 dùng service
             var result = _discountService.Calculate(gioHang, couponCode);
 
             var hoaDon = new HoaDon
@@ -93,7 +92,7 @@ namespace EForumKLTN.Controllers
                 NgayDat = DateTime.Now,
                 MaTrangThai = 0,
                 MaKH_NV = result.maNhanVien,
-                TongTien = (float)result.finalTotal // 👈 QUAN TRỌNG: lưu sau giảm
+                TongTien = (float)result.finalTotal  
             };
 
             db.HoaDons.Add(hoaDon);
@@ -116,15 +115,12 @@ namespace EForumKLTN.Controllers
 
             string noiDung = $"HD{hoaDon.MaHd}";
 
-            // 👉 QR = FINAL TOTAL (đúng yêu cầu)
             string qrUrl =
                 $"https://img.vietqr.io/image/970422-01904006211923-compact2.png" +
                 $"?amount={(int)result.finalTotal}" +
                 $"&addInfo={Uri.EscapeDataString(noiDung)}";
 
             ViewBag.QR = qrUrl;
-
-            // 👉 hiển thị hóa đơn đúng format bạn muốn
             ViewBag.Total = result.total;
             ViewBag.Discount = result.discount;
             ViewBag.FinalTotal = result.finalTotal;
