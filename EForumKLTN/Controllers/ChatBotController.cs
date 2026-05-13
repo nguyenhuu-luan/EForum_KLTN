@@ -103,8 +103,9 @@ namespace EForumKLTN.Controllers
 
     client.DefaultRequestHeaders.Add(
         "Authorization",
-        "Bearer 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");
-
+        "Bearer ");
+                //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 - cai nay la api free up len luon cho no nhanh
+                //nhung ma mot phai tao 1 file rieng chua key api - pull ve copy cai nay vao bearer la chay duoc           
                 var body = new
                 {
                     model = "openai/gpt-3.5-turbo",
